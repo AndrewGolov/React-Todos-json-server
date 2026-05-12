@@ -1,0 +1,111 @@
+#root {
+	max-width: 1280px;
+	min-width: 100%;
+	margin: 0 auto;
+	padding: 0 2rem;
+	box-sizing: border-box;
+}
+
+.app__wrapper {
+	width: 100%;
+	min-width: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	align-items: center;
+	margin-top: 80px;
+}
+
+.read-the-docs {
+	color: #888;
+}
+
+.Navbar__wrapper {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+	border-bottom: 2px solid #4a5568;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(8px);
+}
+
+.Navbar__list {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	list-style-type: none;
+	padding: 10px 20px;
+	margin: 0;
+}
+
+.Navbar__list-item {
+	position: relative;
+	height: 100%;
+}
+
+.Navbar__list-item a,
+.Navbar__list-item_link {
+	display: block;
+	padding: 12px 20px;
+	border-radius: 8px;
+	font-weight: 500;
+	color: #e2e8f0;
+	text-decoration: none;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	position: relative;
+	overflow: hidden;
+}
+
+.Navbar__list-item a::before,
+.Navbar__list-item_link::before {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: linear-gradient(90deg, #60a5fa, #3b82f6);
+	transform: scaleX(0);
+	transform-origin: center;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Navbar__list-item.from-left a::before,
+.Navbar__list-item.from-left .Navbar__list-item_link::before {
+	transform-origin: left;
+}
+
+.Navbar__list-item.from-left a:hover::before,
+.Navbar__list-item.from-left .Navbar__list-item_link:hover::before {
+	transform: scaleX(1);
+}
+
+.Navbar__list-item.from-right a::before,
+.Navbar__list-item.from-right .Navbar__list-item_link::before {
+	transform-origin: right;
+}
+
+.Navbar__list-item.from-right a:hover::before,
+.Navbar__list-item.from-right .Navbar__list-item_link:hover::before {
+	transform: scaleX(1);
+}
+
+.Navbar__list-item a:hover,
+.Navbar__list-item_link:hover {
+	background-color: rgba(75, 85, 99, 0.4);
+	color: #60a5fa;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.Navbar__list-item a:active,
+.Navbar__list-item_link:active {
+	background-color: rgba(59, 130, 246, 0.2);
+	color: #60a5fa;
+	transform: translateY(0);
+	box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+}
