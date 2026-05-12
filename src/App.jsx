@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { readTodos, createTask, normalizeData, deleteTask, updateTask, updateTodoList, searchTasks } from './utils';
+import { readTodos, createTask, deleteTask, updateTask, updateTodoList, searchTasks } from './utils';
 import './App.css';
 
 import { JsonTodoListApp, Loader } from './components';
@@ -83,7 +83,7 @@ export const App = () => {
 		setIsSearchingMode(true);
 		searchTasks(searchPhrase)
 			.then((respData) => {
-				setSearchResults(normalizeData(respData));
+				setSearchResults(respData);
 			})
 			.catch((error) => {
 				console.error('Ошибка при поиске задач', error);
@@ -99,7 +99,7 @@ export const App = () => {
 	useEffect(() => {
 		readTodos(isSorted)
 			.then((respData) => {
-				setDataTodos(normalizeData(respData));
+				setDataTodos(respData);
 			})
 			.catch((error) => {
 				console.error('Ошибка при загрузке задач', error);
