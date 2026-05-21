@@ -18,8 +18,13 @@ export const createTask = ({ title = 'Новая задача...' }) =>
 		body: JSON.stringify({ title, completed: false }),
 	});
 
-export const readTodos = (isSorted) =>
-	isSorted ? request(`${TODOS_URL_JSON_SERVER}?_sort=title`) : request(TODOS_URL_JSON_SERVER);
+export const readTodos = ({ isSorted = false, id = '' } = {}) => {
+	if (id) {
+		return request(`${TODOS_URL_JSON_SERVER}/${id}`);
+	} else {
+		return isSorted ? request(`${TODOS_URL_JSON_SERVER}?_sort=title`) : request(TODOS_URL_JSON_SERVER);
+	}
+};
 
 export const updateTask = (id, payload) =>
 	request(`${TODOS_URL_JSON_SERVER}/${id}`, {

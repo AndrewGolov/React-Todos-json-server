@@ -1,53 +1,22 @@
-import { useState } from 'react';
-import { Button, Field } from '../../components';
+import { Button } from '../../components';
 import style from './TodoItem.module.css';
 
-import { ImBin, ImCheckmark, ImCheckmark2, ImCross } from 'react-icons/im';
+import { ImCheckmark, ImCheckmark2 } from 'react-icons/im';
+import { Link } from 'react-router';
 
-export const TodoItem = ({
-	item,
-	handleDeleteTask,
-	handleCompletedTask,
-	onDoubleClickEditTask,
-	editTaskId,
-	onSubmitEditTask,
-	onCancelEditingTask,
-}) => {
-	const [editTaskValue, setEditTaskValue] = useState(item.title);
-
+export const TodoItem = ({ item, handleCompletedTask }) => {
 	return (
 		<>
 			<li
-				key={item.id}
 				className={
 					item.completed ? `${style['list__item']} ${style['list__item-completed']}` : style['list__item']
 				}
 			>
-				{editTaskId !== item.id ? (
-					<div onDoubleClick={() => onDoubleClickEditTask(item.id)}>{item.title}</div>
-				) : (
-					<form
-						onSubmit={(e) => {
-							onSubmitEditTask({ e, editTaskValue });
-						}}
-					>
-						<div className={style['list__item-formEditing-wrapper']}>
-							<Field
-								type="text"
-								placeholder="введите новый текст задачи"
-								value={editTaskValue}
-								onChange={({ target }) => setEditTaskValue(target.value)}
-							/>
-							<Button type="submit" text={<ImCheckmark />} className={style['list__item-submitBtn']} />
-							<Button
-								type="button"
-								text={<ImCross />}
-								onClick={() => onCancelEditingTask()}
-								className={style['list__item-cancelBtn']}
-							/>
-						</div>
-					</form>
-				)}
+				<div className={style['list__item-title']}>
+					<Link to={`/task/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+						{item.title}
+					</Link>
+				</div>
 
 				<div>
 					<Button
@@ -61,9 +30,8 @@ export const TodoItem = ({
 							)
 						}
 						type="button"
-						onClick={() => handleCompletedTask(item.id)}
+						onClick={handleCompletedTask.bind(null, item.id)}
 					/>
-					<Button type="button" text={<ImBin />} onClick={() => handleDeleteTask(item.id)} />
 				</div>
 			</li>
 		</>

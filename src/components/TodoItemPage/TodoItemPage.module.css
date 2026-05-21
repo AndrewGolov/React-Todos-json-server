@@ -1,0 +1,177 @@
+.TaskPage__container {
+	display: flex;
+	flex-direction: column;
+	min-height: 400px;
+	background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+	padding: 24px;
+	animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slideDown {
+	from {
+		transform: translateY(-20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.TaskPage__header {
+	display: flex;
+	max-width: 900px;
+	margin: 0 auto 32px;
+	width: 100%;
+	animation: slideDown 0.4s ease-out;
+}
+
+.TaskPage__header-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.TaskPage__title {
+	margin: 0;
+	font-size: 32px;
+	font-weight: 700;
+	color: #f3f4f6;
+	letter-spacing: 0.8px;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	flex: 1;
+	word-break: break-word;
+}
+
+.TaskPage__action-buttons {
+	display: flex;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.TaskPage__back-button {
+	padding: 10px 16px;
+	border: none;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.TaskPage__back-button {
+	background-color: #4b5563;
+	color: #e2e8f0;
+}
+
+.TaskPage__back-button:hover {
+	background-color: #5a6576;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 16px rgba(75, 85, 99, 0.4);
+}
+
+.TaskPage__back-button:active {
+	transform: translateY(0);
+	background-color: #3f4a57;
+	box-shadow: 0 2px 8px rgba(75, 85, 99, 0.2);
+}
+
+.TaskPage__content {
+	max-width: 900px;
+	margin: 0 auto;
+	width: 100%;
+	background-color: #1f2937;
+	border: 1px solid #374151;
+	border-radius: 12px;
+	padding: 32px;
+	box-shadow: 0 10px 32px rgba(0, 0, 0, 0.3);
+	animation: slideDown 0.5s ease-out 0.1s both;
+}
+
+.TaskPage__completed {
+	padding: 10px 15px;
+	color: #0ee01c;
+	font-size: 16px;
+	font-weight: 500;
+	text-decoration: line-through;
+	text-align: center;
+}
+
+.TaskPage__not-completed {
+	padding: 10px 15px;
+	color: red;
+	font-size: 16px;
+	font-weight: 500;
+	text-align: center;
+}
+
+.list__item-formEditing-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.list__item-cancelBtn,
+.list__item-submitBtn {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+@media (max-width: 768px) {
+	.TaskPage__container {
+		padding: 16px;
+		min-height: 100vh;
+	}
+
+	.TaskPage__header {
+		margin-bottom: 24px;
+	}
+
+	.TaskPage__header-content {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.TaskPage__title {
+		font-size: 24px;
+	}
+
+	.TaskPage__action-buttons {
+		width: 100%;
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 480px) {
+	.TaskPage__container {
+		padding: 12px;
+	}
+
+	.TaskPage__title {
+		font-size: 20px;
+	}
+
+	.TaskPage__content {
+		padding: 16px;
+		border-radius: 8px;
+	}
+
+	.TaskPage__action-buttons {
+		gap: 8px;
+	}
+}
