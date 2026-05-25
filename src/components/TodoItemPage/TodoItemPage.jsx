@@ -83,7 +83,7 @@ export const TodoItemPage = () => {
 				<Button
 					type="button"
 					className={styles['TaskPage__back-button']}
-					onClick={() => navigate(-1)}
+					onClick={() => navigate('/')}
 					text={
 						<>
 							<ImArrowLeft />

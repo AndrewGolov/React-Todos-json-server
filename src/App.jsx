@@ -1,55 +1,34 @@
 import './App.css';
-import { useState, useRef, useEffect } from 'react';
-
-import { Loader, Button, Field, TodoItem } from './components';
-
+import { useState, useEffect } from 'react';
+import { Loader, Button, AddToolbar, SearchToolbar, TodoListComp } from './components';
 import { readTodos, createTask, updateTask, searchTasks } from './utils';
-
-import { ImPlus, ImCross, ImList2, ImSortAlphaAsc, ImSearch } from 'react-icons/im';
+import { ImList2, ImSortAlphaAsc, ImSearch, ImPlus, ImCross } from 'react-icons/im';
 
 export const App = () => {
-	const [newTask, setNewTask] = useState('');
-	const [needFindTask, setNeedFindTask] = useState('');
-
 	const [dataTodos, setDataTodos] = useState([]);
-	const [searchResults, setSearchResults] = useState([]);
-
 	const [isLoadingJsonServer, setIsLoadingJsonServer] = useState(true);
+	const [searchResults, setSearchResults] = useState([]);
 	const [isAddingTask, setIsAddingTask] = useState(false);
-	const [isSearchingTask, setIsSearchingTask] = useState(false);
+	const [isOpenSearch, setIsOpenSearch] = useState(false);
 	const [isSearchingMode, setIsSearchingMode] = useState(false);
-
 	const [isSorted, setIsSorted] = useState(false);
-
 	const [errorMessage, setErrorMessage] = useState('');
-
-	const refAddField = useRef(null);
-	const refSearchField = useRef(null);
-
-	/* ====================== ADD TASK ====================== */
 
 	const onClickAddBtn = () => {
 		setIsAddingTask((prev) => !prev);
-
-		setIsSearchingTask(false);
-
-		setNewTask('');
+		setIsOpenSearch(false);
 		setErrorMessage('');
 	};
 
-	const onSubmitAddTask = (event) => {
-		event.preventDefault();
-
-		if (!newTask.trim()) {
+	const onSubmitAddTask = ({ value }) => {
+		if (!value.trim()) {
 			setErrorMessage('Это поле не должно быть пустым...');
 			return;
 		}
 
-		createTask({ title: newTask.trim() })
+		createTask({ title: value.trim() })
 			.then((task) => {
 				setDataTodos((prev) => [...prev, task]);
-
-				setNewTask('');
 				setErrorMessage('');
 				setIsAddingTask(false);
 			})
@@ -58,13 +37,9 @@ export const App = () => {
 			});
 	};
 
-	/* ====================== COMPLETE TASK ====================== */
-
 	const handleCompletedTask = (idTask) => {
 		const task = dataTodos.find((task) => task.id === idTask);
-
 		if (!task) return;
-
 		updateTask(idTask, {
 			completed: !task.completed,
 		})
@@ -94,36 +69,26 @@ export const App = () => {
 			.catch((error) => console.log('Ошибка запроса ...', error));
 	};
 
-	/* ====================== SORT ====================== */
-
 	const handleSortList = () => {
 		setIsSorted((prev) => !prev);
 	};
 
-	/* ====================== SEARCH ====================== */
-
+	const clearSearch = () => {
+		setIsSearchingMode(false);
+		setSearchResults([]);
+	};
 	const onClickSearchBtn = () => {
-		const nextState = !isSearchingTask;
-
-		setIsSearchingTask(nextState);
-
+		setIsOpenSearch((prev) => !prev);
 		setIsAddingTask(false);
-
-		if (!nextState) {
-			handleClearSearch();
-			setNeedFindTask('');
+		if (!isOpenSearch) {
+			clearSearch();
 		}
 	};
 
 	const handleSearchTask = (searchPhrase) => {
-		if (!searchPhrase.trim()) {
-			handleClearSearch();
-			return;
-		}
-
+		if (!searchPhrase.trim()) return;
 		setIsSearchingMode(true);
-
-		searchTasks(searchPhrase.trim())
+		searchTasks(searchPhrase)
 			.then((respData) => {
 				setSearchResults(respData);
 			})
@@ -133,25 +98,6 @@ export const App = () => {
 				setSearchResults([]);
 			});
 	};
-
-	const handleClearSearch = () => {
-		setIsSearchingMode(false);
-		setSearchResults([]);
-	};
-
-	/* ====================== FOCUS ====================== */
-
-	useEffect(() => {
-		if (isAddingTask) {
-			refAddField.current?.focus();
-		}
-
-		if (isSearchingTask) {
-			refSearchField.current?.focus();
-		}
-	}, [isAddingTask, isSearchingTask]);
-
-	/* ====================== LOAD TODOS ====================== */
 
 	useEffect(() => {
 		readTodos({ isSorted })
@@ -166,84 +112,35 @@ export const App = () => {
 			});
 	}, [isSorted]);
 
-	/* ====================== RENDER ====================== */
-
 	if (isLoadingJsonServer) {
 		return <Loader />;
 	}
-
 	const renderTodos = isSearchingMode ? searchResults : dataTodos;
 
 	return (
 		<div className="app__wrapper">
 			<div className="list__wrapper">
 				<h4>Тудушка JSON Server</h4>
-
-				<div className="list__controls">
+				<div className="list__header">
 					<Button type="button" text={!isAddingTask ? <ImPlus /> : <ImCross />} onClick={onClickAddBtn} />
-
 					<Button type="button" text={<ImSearch />} onClick={onClickSearchBtn} />
-
 					<Button type="button" text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />} onClick={handleSortList} />
 				</div>
-
-				{/* ====================== ADD FORM ====================== */}
-
-				{isAddingTask && (
-					<form onSubmit={onSubmitAddTask}>
-						<Field
-							type="text"
-							placeholder="Введите текст задачи"
-							value={newTask}
-							onChange={({ target }) => setNewTask(target.value)}
-							inpRef={refAddField}
-						/>
-
-						{errorMessage && <span style={{ color: 'red', fontSize: '14px' }}>{errorMessage}</span>}
-
-						<div>
-							<Button type="submit" text="Добавить" className="list__submit-btn" />
-
-							<Button type="button" text="Отменить" onClick={onClickAddBtn} />
-						</div>
-					</form>
-				)}
-
-				{/* ====================== SEARCH ====================== */}
-
-				{isSearchingTask && (
-					<Field
-						type="text"
-						placeholder="Какую задачу ищем?"
-						value={needFindTask}
-						onChange={({ target }) => {
-							const value = target.value;
-
-							setNeedFindTask(value);
-
-							if (value.trim()) {
-								handleSearchTask(value);
-							} else {
-								handleClearSearch();
-							}
-						}}
-						inpRef={refSearchField}
+				<div>
+					<AddToolbar
+						onSubmit={onSubmitAddTask}
+						isOpen={isAddingTask}
+						errorMessage={errorMessage}
+						onToggle={onClickAddBtn}
 					/>
-				)}
-
-				{/* ====================== TODOS ====================== */}
-
-				<ul className="list">
-					{renderTodos.length === 0 ? (
-						<div className="list__empty">Список задач пуст</div>
-					) : (
-						renderTodos.map((item) => (
-							<div key={item.id}>
-								<TodoItem item={item} handleCompletedTask={handleCompletedTask} />
-							</div>
-						))
-					)}
-				</ul>
+					<SearchToolbar
+						isOpenSearch={isOpenSearch}
+						onToggle={onClickSearchBtn}
+						handleSearch={handleSearchTask}
+						clearSearch={clearSearch}
+					/>
+				</div>
+				<TodoListComp dataTodos={renderTodos} handleCompletedTask={handleCompletedTask} />
 			</div>
 		</div>
 	);

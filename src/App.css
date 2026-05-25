@@ -41,6 +41,13 @@
 	transform: translateY(-2px);
 }
 
+.list__header {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
 .list__title {
 	font-size: 28px;
 	margin-bottom: 18px;
