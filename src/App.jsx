@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { Loader, Button, AddToolbar, SearchToolbar, TodoListComp } from './components';
+import { Loader, Button, AddToolbar, SearchToolbar, TodoListComp, ActionBar } from './components';
 import { readTodos, createTask, updateTask, searchTasks } from './utils';
 import { ImList2, ImSortAlphaAsc, ImSearch, ImPlus, ImCross } from 'react-icons/im';
 
@@ -122,9 +122,14 @@ export const App = () => {
 			<div className="list__wrapper">
 				<h4>Тудушка JSON Server</h4>
 				<div className="list__header">
-					<Button type="button" text={!isAddingTask ? <ImPlus /> : <ImCross />} onClick={onClickAddBtn} />
-					<Button type="button" text={<ImSearch />} onClick={onClickSearchBtn} />
-					<Button type="button" text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />} onClick={handleSortList} />
+					<ActionBar
+						onClickAddBtn={onClickAddBtn}
+						isAddingTask={isAddingTask}
+						onToggleSearch={onClickSearchBtn}
+						isOpenSearch={isOpenSearch}
+						isSorted={isSorted}
+						handleSortList={handleSortList}
+					/>
 				</div>
 				<div>
 					<AddToolbar

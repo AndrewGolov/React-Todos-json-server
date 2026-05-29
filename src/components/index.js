@@ -7,3 +7,6 @@ export { ErrorComponent } from './ErrorComponent.jsx';
 export { AddToolbar } from './AddToolbar/AddToolbar.jsx';
 export { SearchToolbar } from './SearchToolbar/SearchToolbar.jsx';
 export { TodoListComp } from './TodoListComp/TodoListComp.jsx';
+
+/*=========== New Features ===========*/
+export { ActionBar } from './ActionBar/ActionBar.jsx';

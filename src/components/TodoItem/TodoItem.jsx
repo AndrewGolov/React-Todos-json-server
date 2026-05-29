@@ -2,7 +2,6 @@ import { Button } from '../../components';
 import style from './TodoItem.module.css';
 
 import { ImCheckmark, ImCheckmark2 } from 'react-icons/im';
-import { Link } from 'react-router';
 
 export const TodoItem = ({ item, handleCompletedTask }) => {
 	return (
@@ -13,9 +12,7 @@ export const TodoItem = ({ item, handleCompletedTask }) => {
 				}
 			>
 				<div className={style['list__item-title']}>
-					<Link to={`/task/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-						{item.title}
-					</Link>
+					<span style={{ textDecoration: 'none', color: 'inherit' }}>{item.title}</span>
 				</div>
 
 				<div>
