@@ -29,9 +29,12 @@ export const ActionBar = ({
 	}, [isAddingTask, isSearching]);
 	return (
 		<>
-			<Button type="button" text={!isAddingTask ? <ImPlus /> : <ImCross />} onClick={onClickAddBtn} />
-			<Button type="button" text={<ImSearch />} onClick={onClickSearchBtn} />
-			<Button type="button" text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />} onClick={handleSortList} />
+			<div>
+				<Button type="button" text={!isAddingTask ? <ImPlus /> : <ImCross />} onClick={onClickAddBtn} />
+				<Button type="button" text={<ImSearch />} onClick={onClickSearchBtn} />
+				<Button type="button" text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />} onClick={handleSortList} />
+			</div>
+
 			<div>
 				{isAddingTask && (
 					<AddingForm
@@ -42,8 +45,6 @@ export const ActionBar = ({
 					/>
 				)}
 				{isSearching && <SearchingForm handleSearch={handleSearch} clearSearch={clearSearch} />}
-
-				<SearchingForm handleSearch={handleSearch} clearSearch={clearSearch} />
 			</div>
 		</>
 	);
