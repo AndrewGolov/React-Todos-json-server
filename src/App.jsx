@@ -1,8 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { Loader, Button, AddToolbar, SearchToolbar, TodoListComp, ActionBar } from './components';
+import { Loader, TodoListComp, ActionBar } from './components';
 import { readTodos, createTask, updateTask, searchTasks } from './utils';
-import { ImList2, ImSortAlphaAsc, ImSearch, ImPlus, ImCross } from 'react-icons/im';
 
 export const App = () => {
 	const [dataTodos, setDataTodos] = useState([]);
@@ -125,26 +124,20 @@ export const App = () => {
 					<ActionBar
 						onClickAddBtn={onClickAddBtn}
 						isAddingTask={isAddingTask}
-						onToggleSearch={onClickSearchBtn}
+						isOpenSearch={isOpenSearch}
+						onToggle={onClickSearchBtn}
+						handleSearch={handleSearchTask}
+						clearSearch={clearSearch}
 						isOpenSearch={isOpenSearch}
 						isSorted={isSorted}
 						handleSortList={handleSortList}
-					/>
-				</div>
-				<div>
-					<AddToolbar
 						onSubmit={onSubmitAddTask}
 						isOpen={isAddingTask}
 						errorMessage={errorMessage}
 						onToggle={onClickAddBtn}
 					/>
-					<SearchToolbar
-						isOpenSearch={isOpenSearch}
-						onToggle={onClickSearchBtn}
-						handleSearch={handleSearchTask}
-						clearSearch={clearSearch}
-					/>
 				</div>
+
 				<TodoListComp dataTodos={renderTodos} handleCompletedTask={handleCompletedTask} />
 			</div>
 		</div>

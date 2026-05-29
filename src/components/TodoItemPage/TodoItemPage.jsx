@@ -1,5 +1,5 @@
 import { Button } from '../Button/Button';
-import { Loader } from '../loader/Loader';
+import { Loader } from '../Loader/Loader';
 import { ErrorComponent } from '../ErrorComponent';
 import styles from './TodoItemPage.module.css';
 import { useState } from 'react';
