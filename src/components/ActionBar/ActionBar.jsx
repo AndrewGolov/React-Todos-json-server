@@ -1,8 +1,7 @@
 import { ImPlus, ImCross, ImSearch, ImList2, ImSortAlphaAsc } from 'react-icons/im';
 import { Button } from '../Button/Button';
 import { use } from 'react';
-import { AddingFormComponent } from './components/AddingFormComponent.jsx';
-import { SearchingFormComponent } from './components/SearchingFormComponent.jsx';
+import { AddingFormComponent, SearchingFormComponent } from './components';
 import { AppContext } from '../../context/AppContext';
 import { ErrorComponent } from '../ErrorComponent.jsx';
 
