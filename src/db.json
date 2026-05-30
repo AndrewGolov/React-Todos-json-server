@@ -1,9 +1,19 @@
 {
   "todos": [
     {
+      "title": "Добавлена новая задача",
+      "completed": false,
+      "id": "9SM_X-eXtj8"
+    },
+    {
       "title": "Задача 1",
       "completed": false,
-      "id": "5SsGKv0wEFg"
+      "id": "LIL09Scvy0k"
+    },
+    {
+      "title": "Еще задача",
+      "completed": false,
+      "id": "t9Sugd_6GLA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

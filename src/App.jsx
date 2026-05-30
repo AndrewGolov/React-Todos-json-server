@@ -80,9 +80,7 @@ export const App = () => {
 	const onClickSearchBtn = () => {
 		setIsOpenSearch((prev) => !prev);
 		setIsAddingTask(false);
-		if (!isOpenSearch) {
-			clearSearch();
-		}
+		clearSearch();
 	};
 
 	const handleSearchTask = (searchPhrase) => {
@@ -118,20 +116,25 @@ export const App = () => {
 	const renderTodos = isSearchingMode ? searchResults : dataTodos;
 
 	return (
-		<AppContext value={{ isAddingTask, onClickAddBtn, onSubmitAddTask, errorMessage }}>
+		<AppContext
+			value={{
+				isAddingTask,
+				onClickAddBtn,
+				onSubmitAddTask,
+				errorMessage,
+				handleSearchTask,
+				isOpenSearch,
+				onClickSearchBtn,
+				clearSearch,
+				isSorted,
+				handleSortList,
+			}}
+		>
 			<div className="app__wrapper">
 				<div className="list__wrapper">
 					<h4>Тудушка JSON Server</h4>
 					<div className="list__header">
-						<ActionBar
-							isOpenSearch={isOpenSearch}
-							onToggle={onClickSearchBtn}
-							handleSearch={handleSearchTask}
-							clearSearch={clearSearch}
-							isOpenSearch={isOpenSearch}
-							isSorted={isSorted}
-							handleSortList={handleSortList}
-						/>
+						<ActionBar />
 					</div>
 
 					<TodoListComp dataTodos={renderTodos} handleCompletedTask={handleCompletedTask} />

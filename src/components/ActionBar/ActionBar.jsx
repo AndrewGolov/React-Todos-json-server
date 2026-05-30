@@ -1,21 +1,15 @@
 import { ImPlus, ImCross, ImSearch, ImList2, ImSortAlphaAsc } from 'react-icons/im';
 import { Button } from '../Button/Button';
-import { useEffect, useRef, use } from 'react';
+import { use } from 'react';
 import { AddingFormComponent } from './components/AddingFormComponent.jsx';
-import { SearchingForm } from './components/SearchingForm';
+import { SearchingFormComponent } from './components/SearchingFormComponent.jsx';
 import { AppContext } from '../../context/AppContext';
 import { ErrorComponent } from '../ErrorComponent.jsx';
 
-export const ActionBar = ({ isSorted, handleSortList, isSearching, onClickSearchBtn, handleSearch, clearSearch }) => {
-	const { isAddingTask, onClickAddBtn, errorMessage } = use(AppContext);
+export const ActionBar = () => {
+	const { isAddingTask, onClickAddBtn, errorMessage, isOpenSearch, onClickSearchBtn, isSorted, handleSortList } =
+		use(AppContext);
 
-	const refSearchField = useRef(null);
-
-	useEffect(() => {
-		if (isSearching) {
-			refSearchField.current?.focus();
-		}
-	}, [isSearching]);
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 			<div>
@@ -26,7 +20,7 @@ export const ActionBar = ({ isSorted, handleSortList, isSearching, onClickSearch
 
 			<div>
 				{isAddingTask && <AddingFormComponent />}
-				{isSearching && <SearchingForm handleSearch={handleSearch} clearSearch={clearSearch} />}
+				{isOpenSearch && <SearchingFormComponent />}
 				{errorMessage && <ErrorComponent errorMessage={errorMessage} />}
 			</div>
 		</div>
