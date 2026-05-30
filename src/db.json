@@ -1,24 +1,9 @@
 {
   "todos": [
     {
-      "title": "искомое",
+      "title": "Задача 1",
       "completed": false,
-      "id": "rhqpPnqDFs4"
-    },
-    {
-      "title": "Новая 1",
-      "completed": false,
-      "id": "OIKn_BgahkU"
-    },
-    {
-      "title": "Новая 2",
-      "completed": false,
-      "id": "bgGa0VpZu5k"
-    },
-    {
-      "title": "Редактировано",
-      "completed": false,
-      "id": "AwY2vuo1B4s"
+      "id": "5SsGKv0wEFg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

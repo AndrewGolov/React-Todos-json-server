@@ -1,18 +1,27 @@
 import { useState, useRef } from 'react';
 import { Button } from '../../Button/Button';
 import { Field } from '../../Field/Field';
+import { use, useEffect } from 'react';
+import { AppContext } from '../../../context/AppContext';
 
-export const AddingForm = ({ onSubmit, onToggle, isOpen, errorMessage }) => {
+export const AddingFormComponent = () => {
+	const { onSubmitAddTask, isAddingTask, onClickAddBtn } = use(AppContext);
 	const [newValue, setNewValue] = useState('');
 	const refAddField = useRef(null);
 
+	useEffect(() => {
+		if (isAddingTask) {
+			refAddField.current?.focus();
+		}
+	}, [isAddingTask]);
+
 	return (
 		<>
-			{isOpen && (
+			{isAddingTask && (
 				<form
 					onSubmit={(event) => {
 						event.preventDefault();
-						onSubmit({ value: newValue });
+						onSubmitAddTask({ value: newValue });
 						setNewValue('');
 					}}
 				>
@@ -24,8 +33,6 @@ export const AddingForm = ({ onSubmit, onToggle, isOpen, errorMessage }) => {
 						inpRef={refAddField}
 					/>
 
-					{errorMessage && <span style={{ color: 'red', fontSize: '14px' }}>{errorMessage}</span>}
-
 					<div>
 						<Button type="submit" text="Добавить" />
 
@@ -33,7 +40,7 @@ export const AddingForm = ({ onSubmit, onToggle, isOpen, errorMessage }) => {
 							type="button"
 							text="Отменить"
 							onClick={() => {
-								onToggle();
+								onClickAddBtn();
 								setNewValue('');
 							}}
 						/>

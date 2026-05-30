@@ -2,6 +2,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import { Loader, TodoListComp, ActionBar } from './components';
 import { readTodos, createTask, updateTask, searchTasks } from './utils';
+import { AppContext } from './context/AppContext';
 
 export const App = () => {
 	const [dataTodos, setDataTodos] = useState([]);
@@ -117,29 +118,25 @@ export const App = () => {
 	const renderTodos = isSearchingMode ? searchResults : dataTodos;
 
 	return (
-		<div className="app__wrapper">
-			<div className="list__wrapper">
-				<h4>Тудушка JSON Server</h4>
-				<div className="list__header">
-					<ActionBar
-						onClickAddBtn={onClickAddBtn}
-						isAddingTask={isAddingTask}
-						isOpenSearch={isOpenSearch}
-						onToggle={onClickSearchBtn}
-						handleSearch={handleSearchTask}
-						clearSearch={clearSearch}
-						isOpenSearch={isOpenSearch}
-						isSorted={isSorted}
-						handleSortList={handleSortList}
-						onSubmit={onSubmitAddTask}
-						isOpen={isAddingTask}
-						errorMessage={errorMessage}
-						onToggle={onClickAddBtn}
-					/>
-				</div>
+		<AppContext value={{ isAddingTask, onClickAddBtn, onSubmitAddTask, errorMessage }}>
+			<div className="app__wrapper">
+				<div className="list__wrapper">
+					<h4>Тудушка JSON Server</h4>
+					<div className="list__header">
+						<ActionBar
+							isOpenSearch={isOpenSearch}
+							onToggle={onClickSearchBtn}
+							handleSearch={handleSearchTask}
+							clearSearch={clearSearch}
+							isOpenSearch={isOpenSearch}
+							isSorted={isSorted}
+							handleSortList={handleSortList}
+						/>
+					</div>
 
-				<TodoListComp dataTodos={renderTodos} handleCompletedTask={handleCompletedTask} />
+					<TodoListComp dataTodos={renderTodos} handleCompletedTask={handleCompletedTask} />
+				</div>
 			</div>
-		</div>
+		</AppContext>
 	);
 };
