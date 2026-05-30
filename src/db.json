@@ -1,17 +1,12 @@
 {
   "todos": [
     {
-      "title": "Добавлена новая задача",
-      "completed": false,
-      "id": "9SM_X-eXtj8"
-    },
-    {
-      "title": "Задача 1",
+      "title": "Задача 2",
       "completed": false,
       "id": "LIL09Scvy0k"
     },
     {
-      "title": "Еще задача",
+      "title": "Альтернатива",
       "completed": false,
       "id": "t9Sugd_6GLA"
     }

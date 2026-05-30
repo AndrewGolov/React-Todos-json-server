@@ -1,18 +1,22 @@
-import { useState } from 'react';
+import { useState, use, useRef, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { Field } from '../Field/Field';
 import styles from './TodoItem.module.css';
 import { ImCheckmark2, ImBin, ImPencil, ImCheckmark, ImCross } from 'react-icons/im';
 import { updateTask, deleteTask } from '../../utils/api';
+import { AppContext } from '../../context/AppContext';
 
-export const TodoItem = ({ item, handleCompletedTask }) => {
+export const TodoItem = ({ id }) => {
+	const { TodoList, setDataTodos, handleCompletedTask } = use(AppContext);
 	const [newTitle, setNewTitle] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const Task = TodoList.find((task) => task.id === id);
+	const editRef = useRef(null);
 
 	const onClickEditTask = () => {
 		setIsEditing(true);
-		setNewTitle(item.title);
+		setNewTitle(Task.title);
 	};
 
 	const onSubmitEditTask = (e) => {
@@ -21,11 +25,13 @@ export const TodoItem = ({ item, handleCompletedTask }) => {
 		if (!trimmedTitle) return;
 		setIsSubmitting(true);
 
-		updateTask(item.id, {
+		updateTask(Task.id, {
 			title: trimmedTitle,
 		})
 			.then(() => {
-				// setTask((prev) => ({ ...prev, title: trimmedTitle }));
+				setDataTodos((prev) =>
+					prev.map((task) => (task.id === Task.id ? { ...task, title: trimmedTitle } : task)),
+				);
 				setIsEditing(false);
 				setNewTitle('');
 			})
@@ -38,26 +44,31 @@ export const TodoItem = ({ item, handleCompletedTask }) => {
 			});
 	};
 
-	/* ====================== DELETE TASK ====================== */
-
 	const handleDeleteTask = () => {
-		deleteTask({ idTask: item.id })
+		deleteTask({ idTask: Task.id })
 			.then(() => {
+				setDataTodos((prev) => prev.filter((task) => task.id !== Task.id));
 				console.log('Задача успешно удалена');
 			})
 			.catch((error) => console.log('Ошибка запроса ...', error));
 	};
 
+	useEffect(() => {
+		if (isEditing) {
+			editRef.current?.focus();
+		}
+	}, [isEditing]);
+
 	return (
 		<>
 			<li
 				className={
-					item.completed ? `${styles['list__item']} ${styles['list__item-completed']}` : styles['list__item']
+					Task.completed ? `${styles['list__item']} ${styles['list__item-completed']}` : styles['list__item']
 				}
 			>
 				{!isEditing ? (
 					<div className={styles['list__item-title']}>
-						<h5 className={styles['TaskPage__title']}>{item.title}</h5>
+						<h5 className={styles['TaskPage__title']}>{Task.title}</h5>
 					</div>
 				) : (
 					<form onSubmit={onSubmitEditTask}>
@@ -67,6 +78,7 @@ export const TodoItem = ({ item, handleCompletedTask }) => {
 								placeholder="введите новый текст задачи"
 								value={newTitle}
 								onChange={({ target }) => setNewTitle(target.value)}
+								inpRef={editRef}
 							/>
 							<Button
 								type="submit"
@@ -87,7 +99,7 @@ export const TodoItem = ({ item, handleCompletedTask }) => {
 				<div>
 					<Button
 						text={
-							!item.completed ? (
+							!Task.completed ? (
 								<ImCheckmark2 />
 							) : (
 								<span style={{ color: 'green', fontSize: '16px', fontWeight: '500' }}>
@@ -96,7 +108,7 @@ export const TodoItem = ({ item, handleCompletedTask }) => {
 							)
 						}
 						type="button"
-						onClick={handleCompletedTask.bind(null, item.id)}
+						onClick={handleCompletedTask.bind(null, Task.id)}
 					/>
 					<Button type="button" onClick={onClickEditTask} text={<ImPencil />} disabled={isEditing} />
 					<Button type="button" text={<ImBin />} onClick={handleDeleteTask} />

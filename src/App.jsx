@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { Loader, TodoListComp, ActionBar } from './components';
+import { Loader, TodoListComponent, ActionBar } from './components';
 import { readTodos, createTask, updateTask, searchTasks } from './utils';
 import { AppContext } from './context/AppContext';
 
@@ -118,6 +118,8 @@ export const App = () => {
 	return (
 		<AppContext
 			value={{
+				TodoList: renderTodos,
+				setDataTodos,
 				isAddingTask,
 				onClickAddBtn,
 				onSubmitAddTask,
@@ -128,6 +130,7 @@ export const App = () => {
 				clearSearch,
 				isSorted,
 				handleSortList,
+				handleCompletedTask,
 			}}
 		>
 			<div className="app__wrapper">
@@ -137,7 +140,7 @@ export const App = () => {
 						<ActionBar />
 					</div>
 
-					<TodoListComp dataTodos={renderTodos} handleCompletedTask={handleCompletedTask} />
+					<TodoListComponent />
 				</div>
 			</div>
 		</AppContext>
