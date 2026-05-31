@@ -1,18 +1,18 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Loader, TodoListComponent, ActionBar } from './components';
-import { readTodos, createTask, updateTask, searchTasks } from './utils';
+import { createTask, updateTask, searchTasks } from './utils';
 import { AppContext } from './context/AppContext';
+import { useGetDataTodos } from './hooks';
 
 export const App = () => {
-	const [dataTodos, setDataTodos] = useState([]);
-	const [isLoadingJsonServer, setIsLoadingJsonServer] = useState(true);
 	const [searchResults, setSearchResults] = useState([]);
 	const [isAddingTask, setIsAddingTask] = useState(false);
 	const [isOpenSearch, setIsOpenSearch] = useState(false);
 	const [isSearchingMode, setIsSearchingMode] = useState(false);
 	const [isSorted, setIsSorted] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const { dataTodos, isLoadingJsonServer, setterDataTodos } = useGetDataTodos(isSorted);
 
 	const onClickAddBtn = () => {
 		setIsAddingTask((prev) => !prev);
@@ -28,7 +28,7 @@ export const App = () => {
 
 		createTask({ title: value.trim() })
 			.then((task) => {
-				setDataTodos((prev) => [...prev, task]);
+				setterDataTodos((prev) => [...prev, task]);
 				setErrorMessage('');
 				setIsAddingTask(false);
 			})
@@ -44,7 +44,7 @@ export const App = () => {
 			completed: !task.completed,
 		})
 			.then(() => {
-				setDataTodos((prev) =>
+				setterDataTodos((prev) =>
 					prev.map((task) =>
 						task.id === idTask
 							? {
@@ -97,19 +97,6 @@ export const App = () => {
 			});
 	};
 
-	useEffect(() => {
-		readTodos({ isSorted })
-			.then((respData) => {
-				setDataTodos(respData);
-			})
-			.catch((error) => {
-				console.error('Ошибка при загрузке задач', error);
-			})
-			.finally(() => {
-				setIsLoadingJsonServer(false);
-			});
-	}, [isSorted]);
-
 	if (isLoadingJsonServer) {
 		return <Loader />;
 	}
@@ -119,7 +106,7 @@ export const App = () => {
 		<AppContext
 			value={{
 				TodoList: renderTodos,
-				setDataTodos,
+				setDataTodos: setterDataTodos,
 				isAddingTask,
 				onClickAddBtn,
 				onSubmitAddTask,

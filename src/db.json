@@ -1,4 +1,15 @@
 {
-  "todos": [],
+  "todos": [
+    {
+      "title": "Задача 3",
+      "completed": false,
+      "id": "bMKKJkOdTcs"
+    },
+    {
+      "title": "Добавлена реактивно",
+      "completed": false,
+      "id": "bC6-WwqWI8I"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
