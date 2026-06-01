@@ -1,11 +1,9 @@
 import './App.css';
 import { useState } from 'react';
 import { Loader, TodoListComponent, ActionBar } from './components';
-import { searchTasks } from './utils';
 import { AppContext } from './context/AppContext';
 import { useGetDataTodos } from './hooks';
-import { requestCompleteTask } from './requests/request-complete-task';
-import { requestCreateTask } from './requests/request-add-task';
+import { requestCompleteTask, requestSearchTask, requestCreateTask } from './requests';
 
 export const App = () => {
 	const [isSorted, setIsSorted] = useState(false);
@@ -18,6 +16,7 @@ export const App = () => {
 
 	const setterErrorMessage = (message) => setErrorMessage(message);
 	const setterIsAddingTask = (isAdding) => setIsAddingTask(isAdding);
+	const setterSearchPhrase = (phrase) => setSearchPhrase(phrase);
 
 	const onClickAddBtn = () => {
 		setterIsAddingTask((prev) => !prev);
@@ -37,7 +36,7 @@ export const App = () => {
 	const handleCompletedTask = (idTask) => {
 		const task = dataTodos.find((todo) => todo.id === idTask);
 		if (!task) return;
-		requestCompleteTask(idTask, task, setterDataTodos, setSearchPhrase);
+		requestCompleteTask(idTask, task, setterDataTodos, setterSearchPhrase);
 	};
 
 	const handleSortList = () => {
@@ -46,7 +45,7 @@ export const App = () => {
 
 	const clearSearch = () => {
 		setIsSearchingMode(false);
-		setSearchPhrase('');
+		setterSearchPhrase('');
 	};
 	const onClickSearchBtn = () => {
 		setIsOpenSearch((prev) => !prev);
@@ -55,23 +54,18 @@ export const App = () => {
 	};
 
 	const handleSearchTask = (searchPhrase) => {
-		if (!searchPhrase.trim()) return;
+		const trimmedPhrase = searchPhrase.trim();
+		if (!trimmedPhrase) return;
 		setIsSearchingMode(true);
-		searchTasks(searchPhrase)
-			.then(() => {
-				setSearchPhrase(searchPhrase);
-			})
-			.catch((error) => {
-				console.error('Ошибка при поиске задач', error);
-
-				setSearchPhrase('');
-			});
+		requestSearchTask(trimmedPhrase, setterSearchPhrase);
 	};
 
 	if (isLoadingJsonServer) {
 		return <Loader />;
 	}
-	const renderTodos = isSearchingMode ? dataTodos.filter((todo) => todo.title.includes(searchPhrase)) : dataTodos;
+	const renderTodos = isSearchingMode
+		? dataTodos.filter((todo) => todo.title.toLowerCase().includes(searchPhrase.toLowerCase()))
+		: dataTodos;
 
 	return (
 		<AppContext

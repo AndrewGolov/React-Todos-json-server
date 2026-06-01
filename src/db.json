@@ -4,6 +4,16 @@
       "title": "Задача",
       "completed": false,
       "id": "4OEr2MBFqcI"
+    },
+    {
+      "title": "Еще ",
+      "completed": false,
+      "id": "b78uYnHmtBY"
+    },
+    {
+      "title": "Новые",
+      "completed": false,
+      "id": "s7K2pQ1tZo4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
