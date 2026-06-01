@@ -6,14 +6,21 @@ import { AppContext } from '../../context/AppContext';
 import { ErrorComponent } from '../ErrorComponent.jsx';
 
 export const ActionBar = () => {
-	const { isAddingTask, onClickAddBtn, errorMessage, isOpenSearch, onClickSearchBtn, isSorted, handleSortList } =
-		use(AppContext);
+	const {
+		isAddingTask,
+		handleOpenAddForm,
+		errorMessage,
+		isOpenSearch,
+		handleOpenSearchForm,
+		isSorted,
+		handleSortList,
+	} = use(AppContext);
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 			<div>
-				<Button type="button" text={!isAddingTask ? <ImPlus /> : <ImCross />} onClick={onClickAddBtn} />
-				<Button type="button" text={<ImSearch />} onClick={onClickSearchBtn} />
+				<Button type="button" text={!isAddingTask ? <ImPlus /> : <ImCross />} onClick={handleOpenAddForm} />
+				<Button type="button" text={<ImSearch />} onClick={handleOpenSearchForm} />
 				<Button type="button" text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />} onClick={handleSortList} />
 			</div>
 

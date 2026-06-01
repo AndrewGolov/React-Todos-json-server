@@ -9,6 +9,11 @@ export const useAddTodo = (setterDataTodos) => {
 		setIsAddingTask((prev) => !prev);
 		setErrorMessage('');
 	};
+
+	const onCloseFormAdd = () => {
+		setIsAddingTask(false);
+		setErrorMessage('');
+	};
 	const onSubmitAddTask = (value) => {
 		if (!value.trim()) {
 			setErrorMessage('Это поле не должно быть пустым...');
@@ -28,5 +33,6 @@ export const useAddTodo = (setterDataTodos) => {
 		errorMessage,
 		onClickAddBtn,
 		onSubmitAddTask,
+		onCloseFormAdd,
 	};
 };

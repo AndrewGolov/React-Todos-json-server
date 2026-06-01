@@ -2,43 +2,43 @@ import './App.css';
 import { useState } from 'react';
 import { Loader, TodoListComponent, ActionBar } from './components';
 import { AppContext } from './context/AppContext';
-import { useGetDataTodos, useAddTodo } from './hooks';
-import { requestCompleteTask, requestSearchTask } from './requests';
+import { useGetDataTodos, useAddTodo, useSearchTask } from './hooks';
+import { requestCompleteTask } from './requests';
 
 export const App = () => {
 	const [isSorted, setIsSorted] = useState(false);
 	const { dataTodos, isLoadingJsonServer, setterDataTodos } = useGetDataTodos(isSorted);
-	const { isAddingTask, errorMessage, onClickAddBtn, onSubmitAddTask } = useAddTodo(setterDataTodos);
+	const { isAddingTask, errorMessage, onClickAddBtn, onSubmitAddTask, onCloseFormAdd } = useAddTodo(setterDataTodos);
+	const {
+		searchPhrase,
+		isSearchingMode,
+		clearSearch,
+		onClickSearchBtn,
+		handleSearchTask,
+		isOpenSearch,
+		onCloseSearchForm,
+	} = useSearchTask();
 
-	const [isOpenSearch, setIsOpenSearch] = useState(false);
-	const [isSearchingMode, setIsSearchingMode] = useState(false);
-
-	const [searchPhrase, setSearchPhrase] = useState('');
+	const handleOpenAddForm = () => {
+		onClickAddBtn();
+		clearSearch();
+		onCloseSearchForm();
+	};
+	const handleOpenSearchForm = () => {
+		handleSearchTask(searchPhrase);
+		onClickSearchBtn();
+		clearSearch();
+		onCloseFormAdd();
+	};
 
 	const handleCompletedTask = (idTask) => {
 		const task = dataTodos.find((todo) => todo.id === idTask);
 		if (!task) return;
-		requestCompleteTask(idTask, task, setterDataTodos, setSearchPhrase);
+		requestCompleteTask(idTask, task, setterDataTodos);
 	};
 
 	const handleSortList = () => {
 		setIsSorted((prev) => !prev);
-	};
-
-	const clearSearch = () => {
-		setIsSearchingMode(false);
-		setSearchPhrase('');
-	};
-	const onClickSearchBtn = () => {
-		setIsOpenSearch((prev) => !prev);
-		clearSearch();
-	};
-
-	const handleSearchTask = (searchPhrase) => {
-		const trimmedPhrase = searchPhrase.trim();
-		if (!trimmedPhrase) return;
-		setIsSearchingMode(true);
-		requestSearchTask(trimmedPhrase, setSearchPhrase);
 	};
 
 	if (isLoadingJsonServer) {
@@ -53,13 +53,14 @@ export const App = () => {
 			value={{
 				TodoList: renderTodos,
 				setDataTodos: setterDataTodos,
-				isAddingTask,
-				onClickAddBtn,
+				handleOpenAddForm,
 				onSubmitAddTask,
+				onCloseFormAdd,
+				isAddingTask,
 				errorMessage,
+				handleOpenSearchForm,
 				handleSearchTask,
 				isOpenSearch,
-				onClickSearchBtn,
 				clearSearch,
 				isSorted,
 				handleSortList,

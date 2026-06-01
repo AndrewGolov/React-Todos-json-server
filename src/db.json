@@ -1,25 +1,4 @@
 {
-  "todos": [
-    {
-      "title": "Задача 1 ",
-      "completed": false,
-      "id": "3D2Eua7160A"
-    },
-    {
-      "title": "Задача 2 ",
-      "completed": false,
-      "id": "J5kAM2QxDiU"
-    },
-    {
-      "title": "Задача 6",
-      "completed": false,
-      "id": "BGf8lE-FXZw"
-    },
-    {
-      "title": "Зад",
-      "completed": false,
-      "id": "unJCgaw-ses"
-    }
-  ],
+  "todos": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

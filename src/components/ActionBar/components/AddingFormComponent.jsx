@@ -5,7 +5,7 @@ import { use, useEffect } from 'react';
 import { AppContext } from '../../../context/AppContext';
 
 export const AddingFormComponent = () => {
-	const { onSubmitAddTask, isAddingTask, onClickAddBtn } = use(AppContext);
+	const { onSubmitAddTask, isAddingTask, onCloseFormAdd } = use(AppContext);
 	const [newValue, setNewValue] = useState('');
 	const refAddField = useRef(null);
 
@@ -40,7 +40,7 @@ export const AddingFormComponent = () => {
 							type="button"
 							text="Отменить"
 							onClick={() => {
-								onClickAddBtn();
+								onCloseFormAdd();
 								setNewValue('');
 							}}
 						/>
