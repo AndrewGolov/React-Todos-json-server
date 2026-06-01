@@ -1,4 +1,10 @@
 {
-  "todos": [],
+  "todos": [
+    {
+      "title": "Задача",
+      "completed": false,
+      "id": "4OEr2MBFqcI"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

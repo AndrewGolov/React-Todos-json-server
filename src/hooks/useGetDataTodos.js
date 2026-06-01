@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { readTodos } from '../utils';
 
-export const useGetDataTodos = (isSorted) => {
+export const useGetDataTodos = (isSorted = false) => {
 	const [dataTodos, setDataTodos] = useState([]);
 	const [isLoadingJsonServer, setIsLoadingJsonServer] = useState(true);
 	const setterDataTodos = (data) => {

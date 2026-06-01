@@ -1,10 +1,11 @@
 import './App.css';
 import { useState } from 'react';
 import { Loader, TodoListComponent, ActionBar } from './components';
-import { createTask, searchTasks } from './utils';
+import { searchTasks } from './utils';
 import { AppContext } from './context/AppContext';
 import { useGetDataTodos } from './hooks';
 import { requestCompleteTask } from './requests/request-complete-task';
+import { requestCreateTask } from './requests/request-add-task';
 
 export const App = () => {
 	const [isSorted, setIsSorted] = useState(false);
@@ -15,27 +16,22 @@ export const App = () => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const [searchPhrase, setSearchPhrase] = useState('');
 
+	const setterErrorMessage = (message) => setErrorMessage(message);
+	const setterIsAddingTask = (isAdding) => setIsAddingTask(isAdding);
+
 	const onClickAddBtn = () => {
-		setIsAddingTask((prev) => !prev);
+		setterIsAddingTask((prev) => !prev);
 		setIsOpenSearch(false);
-		setErrorMessage('');
+		setterErrorMessage('');
 	};
 
 	const onSubmitAddTask = ({ value }) => {
 		if (!value.trim()) {
-			setErrorMessage('Это поле не должно быть пустым...');
+			setterErrorMessage('Это поле не должно быть пустым...');
 			return;
 		}
 
-		createTask({ title: value.trim() })
-			.then((task) => {
-				setterDataTodos((prev) => [...prev, task]);
-				setErrorMessage('');
-				setIsAddingTask(false);
-			})
-			.catch((error) => {
-				console.log('Ошибка запроса ...', error);
-			});
+		requestCreateTask({ value, setterDataTodos, setterErrorMessage, setterIsAddingTask });
 	};
 
 	const handleCompletedTask = (idTask) => {
