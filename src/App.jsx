@@ -2,37 +2,18 @@ import './App.css';
 import { useState } from 'react';
 import { Loader, TodoListComponent, ActionBar } from './components';
 import { AppContext } from './context/AppContext';
-import { useGetDataTodos } from './hooks';
-import { requestCompleteTask, requestSearchTask, requestCreateTask } from './requests';
+import { useGetDataTodos, useAddTodo } from './hooks';
+import { requestCompleteTask, requestSearchTask } from './requests';
 
 export const App = () => {
 	const [isSorted, setIsSorted] = useState(false);
 	const { dataTodos, isLoadingJsonServer, setterDataTodos } = useGetDataTodos(isSorted);
-	const [isAddingTask, setIsAddingTask] = useState(false);
+	const { isAddingTask, errorMessage, onClickAddBtn, onSubmitAddTask } = useAddTodo(setterDataTodos);
+
 	const [isOpenSearch, setIsOpenSearch] = useState(false);
 	const [isSearchingMode, setIsSearchingMode] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
+
 	const [searchPhrase, setSearchPhrase] = useState('');
-
-	const onClickAddBtn = () => {
-		setIsAddingTask((prev) => !prev);
-		setIsOpenSearch(false);
-		setErrorMessage('');
-	};
-
-	const onSubmitAddTask = ({ value }) => {
-		if (!value.trim()) {
-			setErrorMessage('Это поле не должно быть пустым...');
-			return;
-		}
-
-		requestCreateTask({
-			value,
-			setterDataTodos,
-			setErrorMessage,
-			setIsAddingTask,
-		});
-	};
 
 	const handleCompletedTask = (idTask) => {
 		const task = dataTodos.find((todo) => todo.id === idTask);
@@ -50,7 +31,6 @@ export const App = () => {
 	};
 	const onClickSearchBtn = () => {
 		setIsOpenSearch((prev) => !prev);
-		setIsAddingTask(false);
 		clearSearch();
 	};
 

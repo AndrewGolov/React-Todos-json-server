@@ -1,29 +1,24 @@
 {
   "todos": [
     {
-      "title": "Новая ",
+      "title": "Задача 1 ",
       "completed": false,
-      "id": "jkERYAXZ9DI"
+      "id": "3D2Eua7160A"
     },
     {
-      "title": "Еще новая ",
+      "title": "Задача 2 ",
       "completed": false,
-      "id": "2as7_CaalWY"
+      "id": "J5kAM2QxDiU"
     },
     {
-      "title": "Задача 1",
+      "title": "Задача 6",
       "completed": false,
-      "id": "lcMAYJqyuEk"
+      "id": "BGf8lE-FXZw"
     },
     {
-      "title": "Задача добавлена",
+      "title": "Зад",
       "completed": false,
-      "id": "nWGjLttkNAQ"
-    },
-    {
-      "title": "еще",
-      "completed": false,
-      "id": "hMNr36X4IqI"
+      "id": "unJCgaw-ses"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

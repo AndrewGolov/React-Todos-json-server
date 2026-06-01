@@ -1,7 +1,32 @@
 import { useState } from 'react';
-export const useAddTodo = () => {
+import { requestCreateTask } from '../requests';
+
+export const useAddTodo = (setterDataTodos) => {
 	const [isAddingTask, setIsAddingTask] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
-	return { isAddingTask, setIsAddingTask, errorMessage, setErrorMessage };
+	const onClickAddBtn = () => {
+		setIsAddingTask((prev) => !prev);
+		setErrorMessage('');
+	};
+	const onSubmitAddTask = (value) => {
+		if (!value.trim()) {
+			setErrorMessage('Это поле не должно быть пустым...');
+			return;
+		}
+
+		requestCreateTask({
+			value,
+			setterDataTodos,
+			setErrorMessage,
+			setIsAddingTask,
+		});
+	};
+
+	return {
+		isAddingTask,
+		errorMessage,
+		onClickAddBtn,
+		onSubmitAddTask,
+	};
 };

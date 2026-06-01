@@ -21,7 +21,7 @@ export const AddingFormComponent = () => {
 				<form
 					onSubmit={(event) => {
 						event.preventDefault();
-						onSubmitAddTask({ value: newValue });
+						onSubmitAddTask(newValue);
 						setNewValue('');
 					}}
 				>
