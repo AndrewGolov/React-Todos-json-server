@@ -1,11 +1,11 @@
 import { searchTasks } from '../utils/api';
 
-export const requestSearchTask = (searchPhrase, setterSearchPhrase) => {
+export const requestSearchTask = (searchPhrase, setSearchPhrase) => {
 	searchTasks(searchPhrase)
-		.then(() => setterSearchPhrase(searchPhrase))
+		.then(() => setSearchPhrase(searchPhrase))
 		.catch((error) => {
 			console.error('Ошибка при поиске задач', error);
 
-			setterSearchPhrase('');
+			setSearchPhrase('');
 		});
 };

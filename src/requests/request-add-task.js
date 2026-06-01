@@ -1,14 +1,14 @@
 import { createTask } from '../utils/api';
 
-export const requestCreateTask = ({ value, setterDataTodos, setterErrorMessage, setterIsAddingTask }) => {
+export const requestCreateTask = ({ value, setterDataTodos, setErrorMessage, setIsAddingTask }) => {
 	createTask({ title: value })
 		.then((task) => {
 			setterDataTodos((prev) => [...prev, task]);
-			setterErrorMessage('');
-			setterIsAddingTask(false);
+			setErrorMessage('');
+			setIsAddingTask(false);
 		})
 		.catch((error) => {
-			setterErrorMessage('Ошибка запроса ...');
+			setErrorMessage('Ошибка запроса ...');
 			console.log('Ошибка запроса ...', error);
 		});
 };

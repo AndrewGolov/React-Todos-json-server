@@ -14,29 +14,30 @@ export const App = () => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const [searchPhrase, setSearchPhrase] = useState('');
 
-	const setterErrorMessage = (message) => setErrorMessage(message);
-	const setterIsAddingTask = (isAdding) => setIsAddingTask(isAdding);
-	const setterSearchPhrase = (phrase) => setSearchPhrase(phrase);
-
 	const onClickAddBtn = () => {
-		setterIsAddingTask((prev) => !prev);
+		setIsAddingTask((prev) => !prev);
 		setIsOpenSearch(false);
-		setterErrorMessage('');
+		setErrorMessage('');
 	};
 
 	const onSubmitAddTask = ({ value }) => {
 		if (!value.trim()) {
-			setterErrorMessage('Это поле не должно быть пустым...');
+			setErrorMessage('Это поле не должно быть пустым...');
 			return;
 		}
 
-		requestCreateTask({ value, setterDataTodos, setterErrorMessage, setterIsAddingTask });
+		requestCreateTask({
+			value,
+			setterDataTodos,
+			setErrorMessage,
+			setIsAddingTask,
+		});
 	};
 
 	const handleCompletedTask = (idTask) => {
 		const task = dataTodos.find((todo) => todo.id === idTask);
 		if (!task) return;
-		requestCompleteTask(idTask, task, setterDataTodos, setterSearchPhrase);
+		requestCompleteTask(idTask, task, setterDataTodos, setSearchPhrase);
 	};
 
 	const handleSortList = () => {
@@ -45,7 +46,7 @@ export const App = () => {
 
 	const clearSearch = () => {
 		setIsSearchingMode(false);
-		setterSearchPhrase('');
+		setSearchPhrase('');
 	};
 	const onClickSearchBtn = () => {
 		setIsOpenSearch((prev) => !prev);
@@ -57,7 +58,7 @@ export const App = () => {
 		const trimmedPhrase = searchPhrase.trim();
 		if (!trimmedPhrase) return;
 		setIsSearchingMode(true);
-		requestSearchTask(trimmedPhrase, setterSearchPhrase);
+		requestSearchTask(trimmedPhrase, setSearchPhrase);
 	};
 
 	if (isLoadingJsonServer) {
