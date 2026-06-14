@@ -1,13 +1,14 @@
-import { useState, use, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '../Button/Button';
 import { Field } from '../Field/Field';
 import styles from './TodoItem.module.css';
 import { ImCheckmark2, ImBin, ImPencil, ImCheckmark, ImCross } from 'react-icons/im';
 import { updateTask, deleteTask } from '../../utils/api';
-import { AppContext } from '../../context/AppContext';
+import { useSelector } from 'react-redux';
+import { dataTodos } from '../selectors';
 
 export const TodoItem = ({ id }) => {
-	const { TodoList, setDataTodos, handleCompletedTask } = use(AppContext);
+	const TodoList = useSelector(dataTodos);
 	const [newTitle, setNewTitle] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -108,7 +109,7 @@ export const TodoItem = ({ id }) => {
 							)
 						}
 						type="button"
-						onClick={handleCompletedTask.bind(null, Task.id)}
+						// onClick={handleCompletedTask.bind(null, Task.id)}
 					/>
 					<Button type="button" onClick={onClickEditTask} text={<ImPencil />} disabled={isEditing} />
 					<Button type="button" text={<ImBin />} onClick={handleDeleteTask} />

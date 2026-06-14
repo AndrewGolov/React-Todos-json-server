@@ -1,9 +1,9 @@
 import { TodoItem } from '../TodoItem/TodoItem';
-import { AppContext } from '../../context/AppContext';
-import { use } from 'react';
+import { useSelector } from 'react-redux';
+import { dataTodos } from '../selectors/dataTodos.js';
 
 export const TodoListComponent = () => {
-	const { TodoList } = use(AppContext);
+	const TodoList = useSelector(dataTodos);
 	return (
 		<ul className="list">
 			{TodoList.length === 0 ? (

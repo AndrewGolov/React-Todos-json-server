@@ -18,7 +18,7 @@ export const createTask = ({ title = 'Новая задача...' }) =>
 		body: JSON.stringify({ title, completed: false }),
 	});
 
-export const readTodos = ({ isSorted = false, id = '' } = {}) => {
+const readTodos = ({ isSorted = false, id = '' } = {}) => {
 	if (id) {
 		return request(`${TODOS_URL_JSON_SERVER}/${id}`);
 	} else {
@@ -44,3 +44,5 @@ export const searchTasks = (phrase) => {
 	const normalizedPhrase = phrase.trim();
 	return request(`${TODOS_URL_JSON_SERVER}?title:contains=${encodeURIComponent(normalizedPhrase)}`);
 };
+export const getData = (isSorted) => (dispatch) =>
+	readTodos(isSorted).then((dataRequest) => dispatch({ type: 'GET_DATA_TODOS', payload: dataRequest }));

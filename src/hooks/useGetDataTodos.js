@@ -1,24 +1,15 @@
-import { useState, useEffect } from 'react';
-import { readTodos } from '../utils';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { dataTodos } from '../components/selectors';
+import { getData } from '../utils/api';
 
 export const useGetDataTodos = (isSorted = false) => {
-	const [dataTodos, setDataTodos] = useState([]);
-	const [isLoadingJsonServer, setIsLoadingJsonServer] = useState(true);
-	const setterDataTodos = (data) => {
-		setDataTodos(data);
-	};
+	const todos = useSelector(dataTodos);
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		readTodos({ isSorted })
-			.then((respData) => {
-				setDataTodos(respData);
-			})
-			.catch((error) => {
-				console.error('Ошибка при загрузке задач', error);
-			})
-			.finally(() => {
-				setIsLoadingJsonServer(false);
-			});
+		dispatch(getData(isSorted));
 	}, [isSorted]);
 
-	return { dataTodos, isLoadingJsonServer, setterDataTodos };
+	return { todos };
 };
