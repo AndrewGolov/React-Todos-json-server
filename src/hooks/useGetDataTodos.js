@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { dataTodos } from '../components/selectors';
+import { dataTodosSelector } from '../components/selectors';
 import { getData } from '../utils/api';
 
 export const useGetDataTodos = (isSorted = false) => {
-	const todos = useSelector(dataTodos);
+	const todos = useSelector(dataTodosSelector);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getData(isSorted));
-	}, [isSorted]);
+	}, [todos, isSorted, dispatch]);
 
 	return { todos };
 };

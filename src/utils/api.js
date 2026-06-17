@@ -45,4 +45,6 @@ export const searchTasks = (phrase) => {
 	return request(`${TODOS_URL_JSON_SERVER}?title:contains=${encodeURIComponent(normalizedPhrase)}`);
 };
 export const getData = (isSorted) => (dispatch) =>
-	readTodos(isSorted).then((dataRequest) => dispatch({ type: 'GET_DATA_TODOS', payload: dataRequest }));
+	readTodos(isSorted)
+		.then((dataRequest) => dispatch({ type: 'GET_DATA_TODOS', payload: dataRequest }))
+		.catch((error) => dispatch({ type: 'ERROR_REQUEST', payload: error }));

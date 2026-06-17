@@ -1,14 +1,17 @@
 import './App.css';
-import { useState } from 'react';
 import { Loader, TodoListComponent, ActionBar } from './components';
-import { AppContext } from './context/AppContext';
+
 import { useGetDataTodos, useAddTodo, useSearchTask } from './hooks';
 import { requestCompleteTask } from './requests';
+import { useSelector } from 'react-redux';
+import { loadingDataSelector, isSortedSelector } from './components/selectors';
 
 export const App = () => {
-	const [isSorted, setIsSorted] = useState(false);
-	const { dataTodos, isLoadingJsonServer, setterDataTodos } = useGetDataTodos(isSorted);
-	const { isAddingTask, errorMessage, onClickAddBtn, onSubmitAddTask, onCloseFormAdd } = useAddTodo(setterDataTodos);
+	const isLoadingJsonServer = useSelector(loadingDataSelector);
+	const isSorted = useSelector(isSortedSelector);
+
+	const { todos: dataTodos } = useGetDataTodos(isSorted);
+	const { errorMessage, onClickAddBtn, onSubmitAddTask, onCloseFormAdd } = useAddTodo();
 	const {
 		searchPhrase,
 		isSearchingMode,
@@ -34,49 +37,43 @@ export const App = () => {
 	const handleCompletedTask = (idTask) => {
 		const task = dataTodos.find((todo) => todo.id === idTask);
 		if (!task) return;
-		requestCompleteTask(idTask, task, setterDataTodos);
-	};
-
-	const handleSortList = () => {
-		setIsSorted((prev) => !prev);
+		requestCompleteTask(idTask, task);
 	};
 
 	if (isLoadingJsonServer) {
 		return <Loader />;
 	}
-	const renderTodos = isSearchingMode
-		? dataTodos.filter((todo) => todo.title.toLowerCase().includes(searchPhrase.toLowerCase()))
-		: dataTodos;
+	// const renderTodos = isSearchingMode
+	// 	? dataTodos.filter((todo) => todo.title.toLowerCase().includes(searchPhrase.toLowerCase()))
+	// 	: dataTodos;
 
 	return (
-		<AppContext
+		/*
 			value={{
 				TodoList: renderTodos,
-				setDataTodos: setterDataTodos,
+
 				handleOpenAddForm,
 				onSubmitAddTask,
 				onCloseFormAdd,
-				isAddingTask,
 				errorMessage,
 				handleOpenSearchForm,
 				handleSearchTask,
 				isOpenSearch,
 				clearSearch,
 				isSorted,
-				handleSortList,
+
 				handleCompletedTask,
 			}}
-		>
-			<div className="app__wrapper">
-				<div className="list__wrapper">
-					<h4>Тудушка JSON Server</h4>
-					<div className="list__header">
-						<ActionBar />
-					</div>
-
-					<TodoListComponent />
+		*/
+		<div className="app__wrapper">
+			<div className="list__wrapper">
+				<h4>Тудушка JSON Server</h4>
+				<div className="list__header">
+					<ActionBar />
 				</div>
+
+				<TodoListComponent />
 			</div>
-		</AppContext>
+		</div>
 	);
 };

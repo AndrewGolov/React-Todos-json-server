@@ -2,16 +2,13 @@ import { useState } from 'react';
 import { requestCreateTask } from '../requests';
 
 export const useAddTodo = (setterDataTodos) => {
-	const [isAddingTask, setIsAddingTask] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
 	const onClickAddBtn = () => {
-		setIsAddingTask((prev) => !prev);
 		setErrorMessage('');
 	};
 
 	const onCloseFormAdd = () => {
-		setIsAddingTask(false);
 		setErrorMessage('');
 	};
 	const onSubmitAddTask = (value) => {
@@ -24,12 +21,10 @@ export const useAddTodo = (setterDataTodos) => {
 			value,
 			setterDataTodos,
 			setErrorMessage,
-			setIsAddingTask,
 		});
 	};
 
 	return {
-		isAddingTask,
 		errorMessage,
 		onClickAddBtn,
 		onSubmitAddTask,

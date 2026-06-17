@@ -1,14 +1,21 @@
+/*=============== Служебные импорты ===============*/
 import { useState, useRef, useEffect } from 'react';
-import { Button } from '../Button/Button';
-import { Field } from '../Field/Field';
+import { useSelector } from 'react-redux';
+
+/*=============== Стили и иконки ===============*/
 import styles from './TodoItem.module.css';
 import { ImCheckmark2, ImBin, ImPencil, ImCheckmark, ImCross } from 'react-icons/im';
+
+/*=============== Подключение компонентов ===============*/
+import { Button } from '../Button/Button';
+import { Field } from '../Field/Field';
+
+/*=============== Утилиты и функции ===============*/
 import { updateTask, deleteTask } from '../../utils/api';
-import { useSelector } from 'react-redux';
-import { dataTodos } from '../selectors';
+import { dataTodosSelector } from '../selectors';
 
 export const TodoItem = ({ id }) => {
-	const TodoList = useSelector(dataTodos);
+	const TodoList = useSelector(dataTodosSelector);
 	const [newTitle, setNewTitle] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,9 +37,6 @@ export const TodoItem = ({ id }) => {
 			title: trimmedTitle,
 		})
 			.then(() => {
-				setDataTodos((prev) =>
-					prev.map((task) => (task.id === Task.id ? { ...task, title: trimmedTitle } : task)),
-				);
 				setIsEditing(false);
 				setNewTitle('');
 			})
@@ -48,7 +52,6 @@ export const TodoItem = ({ id }) => {
 	const handleDeleteTask = () => {
 		deleteTask({ idTask: Task.id })
 			.then(() => {
-				setDataTodos((prev) => prev.filter((task) => task.id !== Task.id));
 				console.log('Задача успешно удалена');
 			})
 			.catch((error) => console.log('Ошибка запроса ...', error));
@@ -118,3 +121,11 @@ export const TodoItem = ({ id }) => {
 		</>
 	);
 };
+
+/*=============== Служебные импорты ===============*/
+
+/*=============== Стили и иконки ===============*/
+
+/*=============== Подключение компонентов ===============*/
+
+/*=============== Утилиты и функции ===============*/

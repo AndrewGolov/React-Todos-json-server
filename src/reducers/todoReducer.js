@@ -1,3 +1,5 @@
+import { actions } from '../actions/actions';
+
 const initialState = {
 	dataTodos: [],
 	isLoadingData: true,
@@ -6,13 +8,13 @@ const initialState = {
 
 export const todoReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
-		case 'GET_DATA_TODOS':
+		case actions.GET_DATA_TODOS:
 			return {
 				...state,
 				dataTodos: payload,
 				isLoadingData: false,
 			};
-		case 'ERROR_REQUEST':
+		case actions.ERROR_REQUEST:
 			return {
 				...state,
 				isLoadingData: false,
