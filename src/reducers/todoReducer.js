@@ -25,6 +25,8 @@ export const todoReducer = (state = initialState, { type, payload }) => {
 				...state,
 				dataTodos: state.dataTodos.map((todo) => (todo.id === payload.id ? { ...todo, ...payload } : todo)),
 			};
+		case actions.DELETE_TASK:
+			return { ...state, dataTodos: state.dataTodos.filter((todo) => todo.id !== payload) };
 
 		case actions.ERROR_REQUEST:
 			return {

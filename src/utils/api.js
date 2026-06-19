@@ -36,7 +36,7 @@ const updateTask = ({ id, payload }) =>
 		body: JSON.stringify(payload),
 	});
 
-export const deleteTask = ({ idTask }) =>
+const deleteRequest = ({ idTask }) =>
 	request(`${TODOS_URL_JSON_SERVER}/${idTask}`, {
 		method: 'DELETE',
 	});
@@ -62,4 +62,10 @@ export const updateTodo =
 	(dispatch) =>
 		updateTask({ id, payload })
 			.then((updatedData) => dispatch({ type: actions.UPDATE_TASK, payload: updatedData }))
+			.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
+export const deleteTodo =
+	({ id }) =>
+	(dispatch) =>
+		deleteRequest({ idTask: id })
+			.then((deleteData) => dispatch({ type: actions.DELETE_TASK, payload: deleteData.id }))
 			.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));

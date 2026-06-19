@@ -2,16 +2,15 @@ import { TodoItem } from './components/TodoItem/TodoItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { dataTodosSelector } from '../selectors';
 
-import { updateTodo } from '../../utils/api';
+import { updateTodo, deleteTodo } from '../../utils/api';
 
 export const TodoListComponent = () => {
 	const dispatch = useDispatch();
 	const TodoList = useSelector(dataTodosSelector);
 
-	const onDeleteTask = (id) => console.log(`Задача c ${id} удалена`);
-
 	const onSubmitEditTask = (id, title) => dispatch(updateTodo({ id, payload: { title } }));
 	const onCompleteTask = (task) => dispatch(updateTodo({ id: task.id, payload: { completed: !task.completed } }));
+	const onDeleteTask = (id) => dispatch(deleteTodo({ id }));
 
 	return (
 		<ul className="list">
