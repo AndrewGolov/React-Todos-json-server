@@ -1,1 +1,1 @@
-export const isSortedSelector = (state) => state.isSorted;
+export const isSortedSelector = (state) => state.ui.isSorted;

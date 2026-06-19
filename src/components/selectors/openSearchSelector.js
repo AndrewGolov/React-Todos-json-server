@@ -1,1 +1,1 @@
-export const openSearchSelector = (state) => state.isOpenSearch;
+export const openSearchSelector = (state) => state.ui.isOpenSearch;

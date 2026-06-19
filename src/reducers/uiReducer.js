@@ -1,29 +1,25 @@
 import { actions } from '../actions/actions';
 
 const initialState = {
-	addingValue: '',
-	searchingValue: '',
 	isAdding: false,
 	isSorting: false,
 	isOpenSearch: false,
 	isSorted: false,
-	errorFieldMessage: null,
 };
 
 export const uiReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
-		case actions.ADD_TASK:
+		case actions.ADDING_MODE:
 			return {
 				...state,
-				isAdding: payload,
+				isAdding: !state.isAdding || payload,
 			};
-		case actions.ACTION_SORTED: {
-			const sorting = !state.isSorted;
+
+		case actions.ACTION_SORTED:
 			return {
 				...state,
-				isSorted: sorting,
+				isSorted: !state.isSorted,
 			};
-		}
 
 		default:
 			return state;

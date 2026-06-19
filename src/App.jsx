@@ -1,7 +1,7 @@
 import './App.css';
 import { Loader, TodoListComponent, ActionBar } from './components';
 
-import { useGetDataTodos, useAddTodo, useSearchTask } from './hooks';
+import { useGetDataTodos, useSearchTask } from './hooks';
 import { requestCompleteTask } from './requests';
 import { useSelector } from 'react-redux';
 import { loadingDataSelector, isSortedSelector } from './components/selectors';
@@ -11,14 +11,14 @@ export const App = () => {
 	const isSorted = useSelector(isSortedSelector);
 
 	const { todos: dataTodos } = useGetDataTodos(isSorted);
-	const { errorMessage, onClickAddBtn, onSubmitAddTask, onCloseFormAdd } = useAddTodo();
+
 	const {
 		searchPhrase,
-		isSearchingMode,
+
 		clearSearch,
 		onClickSearchBtn,
 		handleSearchTask,
-		isOpenSearch,
+
 		onCloseSearchForm,
 	} = useSearchTask();
 

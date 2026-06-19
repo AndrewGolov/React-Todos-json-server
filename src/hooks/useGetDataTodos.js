@@ -9,7 +9,7 @@ export const useGetDataTodos = (isSorted = false) => {
 
 	useEffect(() => {
 		dispatch(getData(isSorted));
-	}, [todos, isSorted, dispatch]);
+	}, [isSorted, dispatch]);
 
 	return { todos };
 };

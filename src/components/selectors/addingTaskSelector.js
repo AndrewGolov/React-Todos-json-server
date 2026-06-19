@@ -1,1 +1,1 @@
-export const addingTaskSelector = (state) => state.isAdding;
+export const addingTaskSelector = (state) => state.ui.isAdding;

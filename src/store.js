@@ -4,6 +4,6 @@ import { todoReducer } from './reducers/todoReducer.js';
 import { uiReducer } from './reducers/uiReducer.js';
 const reducer = combineReducers({
 	todos: todoReducer,
-	uiReducer,
+	ui: uiReducer,
 });
 export const store = legacy_createStore(reducer, applyMiddleware(thunk));

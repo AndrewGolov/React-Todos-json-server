@@ -9,15 +9,6 @@ const request = (url, options = {}) =>
 		return response.json();
 	});
 
-export const createTask = ({ title = 'Новая задача...' }) =>
-	request(TODOS_URL_JSON_SERVER, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ title, completed: false }),
-	});
-
 const readTodos = ({ isSorted = false, id = '' } = {}) => {
 	if (id) {
 		return request(`${TODOS_URL_JSON_SERVER}/${id}`);
@@ -25,6 +16,15 @@ const readTodos = ({ isSorted = false, id = '' } = {}) => {
 		return isSorted ? request(`${TODOS_URL_JSON_SERVER}?_sort=title`) : request(TODOS_URL_JSON_SERVER);
 	}
 };
+
+const newTaskRequest = (title = 'Новая задача...') =>
+	request(TODOS_URL_JSON_SERVER, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ title, completed: false }),
+	});
 
 export const updateTask = (id, payload) =>
 	request(`${TODOS_URL_JSON_SERVER}/${id}`, {
@@ -44,6 +44,14 @@ export const searchTasks = (phrase) => {
 	const normalizedPhrase = phrase.trim();
 	return request(`${TODOS_URL_JSON_SERVER}?title:contains=${encodeURIComponent(normalizedPhrase)}`);
 };
+
+/*================ REDUX ФУНКЦИИ ================*/
+
+export const createTodo = (title) => (dispatch) =>
+	newTaskRequest(title)
+		.then((data) => dispatch({ type: 'ADD_NEW_TASK', payload: data }))
+		.catch((error) => dispatch({ type: 'ERROR_REQUEST', payload: error }));
+
 export const getData = (isSorted) => (dispatch) =>
 	readTodos(isSorted)
 		.then((dataRequest) => dispatch({ type: 'GET_DATA_TODOS', payload: dataRequest }))

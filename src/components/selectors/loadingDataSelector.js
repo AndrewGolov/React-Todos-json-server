@@ -1,1 +1,1 @@
-export const loadingDataSelector = (state) => state.isLoadingData;
+export const loadingDataSelector = (state) => state.todos.isLoadingData;
