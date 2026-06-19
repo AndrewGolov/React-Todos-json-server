@@ -1,9 +1,15 @@
+/*=============== Служебные импорты ===============*/
 import { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+/*=============== Стили и иконки ===============*/
+
+/*=============== Подключение компонентов ===============*/
 import { Button } from '../../Button/Button';
 import { Field } from '../../Field/Field';
 import { ErrorComponent } from '../../ErrorComponent';
 
-import { useSelector, useDispatch } from 'react-redux';
+/*=============== Утилиты и функции ===============*/
 import { addingTaskSelector } from '../../selectors';
 import { createTodo } from '../../../utils/api';
 import { actions } from '../../../actions/actions';

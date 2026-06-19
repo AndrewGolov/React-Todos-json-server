@@ -1,4 +1,4 @@
-import { TodoItem } from '../TodoItem/TodoItem';
+import { TodoItem } from './components/TodoItem/TodoItem';
 import { useSelector } from 'react-redux';
 import { dataTodosSelector } from '../selectors';
 
@@ -7,13 +7,9 @@ export const TodoListComponent = () => {
 	return (
 		<ul className="list">
 			{TodoList.length === 0 ? (
-				<div className="list__empty">Список задач пуст</div>
+				<li className="list__empty">Список задач пуст</li>
 			) : (
-				TodoList.map((item) => (
-					<div key={item.id}>
-						<TodoItem id={item.id} />
-					</div>
-				))
+				TodoList.map((task) => <TodoItem key={task.id} task={task} />)
 			)}
 		</ul>
 	);

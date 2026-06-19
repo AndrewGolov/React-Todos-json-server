@@ -9,7 +9,6 @@ const initialState = {
 export const todoReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case actions.ADD_NEW_TASK:
-			console.log(payload);
 			return {
 				...state,
 				dataTodos: [...state.dataTodos, payload],
@@ -21,6 +20,10 @@ export const todoReducer = (state = initialState, { type, payload }) => {
 				dataTodos: payload,
 				isLoadingData: false,
 			};
+		case actions.UPDATE_TASK:
+			console.log(payload);
+
+			return {};
 
 		case actions.ERROR_REQUEST:
 			return {

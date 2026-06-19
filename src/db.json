@@ -1,29 +1,24 @@
 {
   "todos": [
     {
-      "title": "7",
+      "title": "1",
       "completed": false,
-      "id": "FXFuEgbksyw"
+      "id": "zTLejwgScyE"
     },
     {
-      "title": "8",
+      "title": "2",
       "completed": false,
-      "id": "cffquWHnuss"
+      "id": "OBnGMSNMOLk"
     },
     {
       "title": "3",
       "completed": false,
-      "id": "TABEWF6An-w"
+      "id": "eia2HxItXs0"
     },
     {
-      "title": "1",
+      "title": "4",
       "completed": false,
-      "id": "R_aXbaK9Pw0"
-    },
-    {
-      "title": "1",
-      "completed": false,
-      "id": "TvHppRqnYww"
+      "id": "6GSfmuZmfNw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

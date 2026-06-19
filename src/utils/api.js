@@ -1,4 +1,5 @@
 import { TODOS_URL_JSON_SERVER } from '../constants/constants';
+import { actions } from '../actions/actions';
 
 const request = (url, options = {}) =>
 	fetch(url, options).then((response) => {
@@ -26,7 +27,7 @@ const newTaskRequest = (title = 'Новая задача...') =>
 		body: JSON.stringify({ title, completed: false }),
 	});
 
-export const updateTask = (id, payload) =>
+const updateTask = (id, payload) =>
 	request(`${TODOS_URL_JSON_SERVER}/${id}`, {
 		method: 'PATCH',
 		headers: {
@@ -49,10 +50,12 @@ export const searchTasks = (phrase) => {
 
 export const createTodo = (title) => (dispatch) =>
 	newTaskRequest(title)
-		.then((data) => dispatch({ type: 'ADD_NEW_TASK', payload: data }))
-		.catch((error) => dispatch({ type: 'ERROR_REQUEST', payload: error }));
+		.then((newTask) => dispatch({ type: actions.ADD_NEW_TASK, payload: newTask }))
+		.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
 
 export const getData = (isSorted) => (dispatch) =>
 	readTodos(isSorted)
-		.then((dataRequest) => dispatch({ type: 'GET_DATA_TODOS', payload: dataRequest }))
-		.catch((error) => dispatch({ type: 'ERROR_REQUEST', payload: error }));
+		.then((dataRequest) => dispatch({ type: actions.GET_DATA_TODOS, payload: dataRequest }))
+		.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
+export const updateTodo = (id, payload) => (dispatch) =>
+	updateTask(id, payload).then((updatedData) => dispatch({ type: actions.UPDATE_TASK, payload: updatedData }));

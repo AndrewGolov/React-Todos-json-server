@@ -1,70 +1,31 @@
+/*=============== Служебные импорты ===============*/
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+/*=============== Стили и иконки ===============*/
 import './App.css';
+
+/*=============== Подключение компонентов ===============*/
 import { Loader, TodoListComponent, ActionBar } from './components';
 
-import { useGetDataTodos, useSearchTask } from './hooks';
-import { requestCompleteTask } from './requests';
-import { useSelector } from 'react-redux';
+/*=============== Утилиты и функции ===============*/
 import { loadingDataSelector, isSortedSelector } from './components/selectors';
+import { getData } from './utils/api';
 
 export const App = () => {
+	const dispatch = useDispatch();
 	const isLoadingJsonServer = useSelector(loadingDataSelector);
 	const isSorted = useSelector(isSortedSelector);
 
-	const { todos: dataTodos } = useGetDataTodos(isSorted);
-
-	const {
-		searchPhrase,
-
-		clearSearch,
-		onClickSearchBtn,
-		handleSearchTask,
-
-		onCloseSearchForm,
-	} = useSearchTask();
-
-	const handleOpenAddForm = () => {
-		onClickAddBtn();
-		clearSearch();
-		onCloseSearchForm();
-	};
-	const handleOpenSearchForm = () => {
-		handleSearchTask(searchPhrase);
-		onClickSearchBtn();
-		clearSearch();
-		onCloseFormAdd();
-	};
-
-	const handleCompletedTask = (idTask) => {
-		const task = dataTodos.find((todo) => todo.id === idTask);
-		if (!task) return;
-		requestCompleteTask(idTask, task);
-	};
+	useEffect(() => {
+		dispatch(getData(isSorted));
+	}, [isSorted, dispatch]);
 
 	if (isLoadingJsonServer) {
 		return <Loader />;
 	}
-	// const renderTodos = isSearchingMode
-	// 	? dataTodos.filter((todo) => todo.title.toLowerCase().includes(searchPhrase.toLowerCase()))
-	// 	: dataTodos;
 
 	return (
-		/*
-			value={{
-				TodoList: renderTodos,
-
-				handleOpenAddForm,
-				onSubmitAddTask,
-				onCloseFormAdd,
-				errorMessage,
-				handleOpenSearchForm,
-				handleSearchTask,
-				isOpenSearch,
-				clearSearch,
-				isSorted,
-
-				handleCompletedTask,
-			}}
-		*/
 		<div className="app__wrapper">
 			<div className="list__wrapper">
 				<h4>Тудушка JSON Server</h4>

@@ -11,6 +11,7 @@ import { SearchingFormComponent } from './components/SearchingFormComponent';
 
 /*=============== Утилиты и функции ===============*/
 import { addingTaskSelector, isSortedSelector, openSearchSelector } from '../selectors';
+import { actions } from '../../actions/actions';
 
 export const ActionBar = () => {
 	const dispatch = useDispatch();
@@ -24,17 +25,17 @@ export const ActionBar = () => {
 				<Button
 					type="button"
 					text={!isAddingTask ? <ImPlus /> : <ImCross />}
-					onClick={() => dispatch({ type: 'ADDING_MODE' })}
+					onClick={() => dispatch({ type: actions.ADDING_MODE })}
 				/>
 				<Button type="button" text={<ImSearch />} onClick={() => console.log('КЛик открыть поле поиска')} />
 				<Button
 					type="button"
 					text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />}
-					onClick={() => dispatch({ type: 'ACTION_SORTED' })}
+					onClick={() => dispatch({ type: actions.ACTION_SORTED })}
 				/>
 			</div>
 
-			<div style={{ flexGrow: 1 }}>
+			<div>
 				{isAddingTask && <AddingFormComponent />}
 				{isOpenSearch && <SearchingFormComponent />}
 			</div>
