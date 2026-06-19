@@ -27,7 +27,7 @@ const newTaskRequest = (title = 'Новая задача...') =>
 		body: JSON.stringify({ title, completed: false }),
 	});
 
-const updateTask = (id, payload) =>
+const updateTask = ({ id, payload }) =>
 	request(`${TODOS_URL_JSON_SERVER}/${id}`, {
 		method: 'PATCH',
 		headers: {
@@ -57,5 +57,9 @@ export const getData = (isSorted) => (dispatch) =>
 	readTodos(isSorted)
 		.then((dataRequest) => dispatch({ type: actions.GET_DATA_TODOS, payload: dataRequest }))
 		.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
-export const updateTodo = (id, payload) => (dispatch) =>
-	updateTask(id, payload).then((updatedData) => dispatch({ type: actions.UPDATE_TASK, payload: updatedData }));
+export const updateTodo =
+	({ id, payload }) =>
+	(dispatch) =>
+		updateTask({ id, payload })
+			.then((updatedData) => dispatch({ type: actions.UPDATE_TASK, payload: updatedData }))
+			.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));

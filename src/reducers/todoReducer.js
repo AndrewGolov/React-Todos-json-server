@@ -21,9 +21,10 @@ export const todoReducer = (state = initialState, { type, payload }) => {
 				isLoadingData: false,
 			};
 		case actions.UPDATE_TASK:
-			console.log(payload);
-
-			return {};
+			return {
+				...state,
+				dataTodos: state.dataTodos.map((todo) => (todo.id === payload.id ? { ...todo, ...payload } : todo)),
+			};
 
 		case actions.ERROR_REQUEST:
 			return {

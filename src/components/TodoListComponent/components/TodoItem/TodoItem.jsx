@@ -1,6 +1,5 @@
 /*=============== Служебные импорты ===============*/
 import { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 /*=============== Стили и иконки ===============*/
 import styles from './TodoItem.module.css';
@@ -11,37 +10,11 @@ import { Button } from '../../../../components';
 import { Field } from '../../../../components';
 
 /*=============== Утилиты и функции ===============*/
-import { updateTodo } from '../../../../utils/api';
 
-export const TodoItem = ({ task }) => {
-	const dispatch = useDispatch();
+export const TodoItem = ({ task, onSubmitEditTask, onDeleteTask, onCompleteTask }) => {
 	const [newTitle, setNewTitle] = useState('');
 	const [isEditing, setIsEditing] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-
 	const editRef = useRef(null);
-
-	const onClickEditTask = () => {
-		setIsEditing(true);
-		setNewTitle(task.title);
-	};
-
-	const onSubmitEditTask = (e) => {
-		e.preventDefault();
-		const trimmedTitle = newTitle.trim();
-		if (!trimmedTitle) return;
-		setIsSubmitting(true);
-
-		dispatch(updateTodo(task.id));
-	};
-
-	const handleDeleteTask = () => {
-		// deleteTask({ idTask: Task.id })
-		// 	.then(() => {
-		// 		console.log('Задача успешно удалена');
-		// 	})
-		// 	.catch((error) => console.log('Ошибка запроса ...', error));
-	};
 
 	useEffect(() => {
 		if (isEditing) {
@@ -50,6 +23,21 @@ export const TodoItem = ({ task }) => {
 	}, [isEditing]);
 
 	if (!task) return null;
+
+	const onChange = ({ target }) => setNewTitle(target.value);
+
+	const openEdit = () => {
+		setIsEditing(true);
+		setNewTitle(task.title);
+	};
+	const cancelEdit = () => setIsEditing(false);
+	const submitForm = async (e) => {
+		e.preventDefault();
+		const title = newTitle.trim();
+		if (!title) return;
+		onSubmitEditTask(task.id, title);
+		cancelEdit();
+	};
 
 	return (
 		<li
@@ -62,25 +50,25 @@ export const TodoItem = ({ task }) => {
 					<h5 className={styles['TaskPage__title']}>{task.title}</h5>
 				</div>
 			) : (
-				<form onSubmit={onSubmitEditTask}>
+				<form onSubmit={submitForm}>
 					<div className={styles['list__item-formEditing-wrapper']}>
 						<Field
 							type="text"
 							placeholder="введите новый текст задачи"
 							value={newTitle}
-							onChange={({ target }) => setNewTitle(target.value)}
+							onChange={onChange}
 							inpRef={editRef}
 						/>
 						<Button
 							type="submit"
 							text={<ImCheckmark />}
 							className={styles['list__item-submitBtn']}
-							disabled={isSubmitting || !newTitle.trim()}
+							disabled={!newTitle.trim()}
 						/>
 						<Button
 							type="button"
 							text={<ImCross />}
-							onClick={() => setIsEditing(false)}
+							onClick={cancelEdit}
 							className={styles['list__item-cancelBtn']}
 						/>
 					</div>
@@ -99,10 +87,10 @@ export const TodoItem = ({ task }) => {
 						)
 					}
 					type="button"
-					// onClick={handleCompletedTask.bind(null, Task.id)}
+					onClick={() => onCompleteTask(task)}
 				/>
-				<Button type="button" onClick={onClickEditTask} text={<ImPencil />} disabled={isEditing} />
-				<Button type="button" text={<ImBin />} onClick={handleDeleteTask} />
+				<Button type="button" onClick={openEdit} text={<ImPencil />} disabled={isEditing} />
+				<Button type="button" text={<ImBin />} onClick={() => onDeleteTask(task.id)} />
 			</div>
 		</li>
 	);
