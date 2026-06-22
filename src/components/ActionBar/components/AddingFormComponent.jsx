@@ -1,6 +1,6 @@
 /*=============== Служебные импорты ===============*/
 import { useState, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 /*=============== Стили и иконки ===============*/
 
@@ -11,11 +11,8 @@ import { ErrorComponent } from '../../ErrorComponent';
 
 /*=============== Утилиты и функции ===============*/
 import { addingTaskSelector } from '../../selectors';
-import { createTodo } from '../../../utils/api';
-import { actions } from '../../../actions/actions';
 
-export const AddingFormComponent = () => {
-	const dispatch = useDispatch();
+export const AddingFormComponent = ({ cancelAddingMode, submitAddingTask }) => {
 	const isAddingTask = useSelector(addingTaskSelector);
 
 	const [newValue, setNewValue] = useState('');
@@ -24,16 +21,15 @@ export const AddingFormComponent = () => {
 
 	const submitForm = (event) => {
 		event.preventDefault();
-		if (!newValue.trim()) return setError('Поле не должно быть пустым');
-
-		dispatch(createTodo(newValue));
-
+		const validValue = newValue.replace(/\s+/g, ' ').trim();
+		if (!validValue) return setError('Поле не должно быть пустым');
+		submitAddingTask(validValue);
 		setNewValue('');
 		setError('');
 	};
-	const cancelAddingMode = () => {
+	const cancelMode = () => {
+		cancelAddingMode();
 		setNewValue('');
-		dispatch({ type: actions.ADDING_MODE, payload: false });
 	};
 
 	useEffect(() => {
@@ -60,7 +56,7 @@ export const AddingFormComponent = () => {
 
 						<div>
 							<Button type="submit" text="Добавить" />
-							<Button type="button" text="Отменить" onClick={cancelAddingMode} />
+							<Button type="button" text="Отменить" onClick={cancelMode} />
 						</div>
 					</div>
 				</form>

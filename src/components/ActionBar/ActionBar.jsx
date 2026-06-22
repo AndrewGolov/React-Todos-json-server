@@ -12,12 +12,18 @@ import { SearchingFormComponent } from './components/SearchingFormComponent';
 /*=============== Утилиты и функции ===============*/
 import { addingTaskSelector, isSortedSelector, openSearchSelector } from '../selectors';
 import { actions } from '../../actions/actions';
+import { createTodo } from '../../utils/api';
 
 export const ActionBar = () => {
 	const dispatch = useDispatch();
 	const isAddingTask = useSelector(addingTaskSelector);
 	const isOpenSearch = useSelector(openSearchSelector);
 	const isSorted = useSelector(isSortedSelector);
+
+	const cancelAddingMode = () => dispatch({ type: actions.ADDING_MODE, payload: false });
+	const submitAddingTask = (textTask) => dispatch(createTodo(textTask));
+
+	const searchTask = (phrase) => dispatch({ type: actions.SET_SEARCH_PHRASE, payload: phrase });
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
@@ -27,7 +33,11 @@ export const ActionBar = () => {
 					text={!isAddingTask ? <ImPlus /> : <ImCross />}
 					onClick={() => dispatch({ type: actions.ADDING_MODE })}
 				/>
-				<Button type="button" text={<ImSearch />} onClick={() => console.log('КЛик открыть поле поиска')} />
+				<Button
+					type="button"
+					text={<ImSearch />}
+					onClick={() => dispatch({ type: actions.OPEN_SEARCH_MODE })}
+				/>
 				<Button
 					type="button"
 					text={isSorted ? <ImList2 /> : <ImSortAlphaAsc />}
@@ -36,8 +46,10 @@ export const ActionBar = () => {
 			</div>
 
 			<div>
-				{isAddingTask && <AddingFormComponent />}
-				{isOpenSearch && <SearchingFormComponent />}
+				{isAddingTask && (
+					<AddingFormComponent cancelAddingMode={cancelAddingMode} submitAddingTask={submitAddingTask} />
+				)}
+				{isOpenSearch && <SearchingFormComponent searchTask={searchTask} />}
 			</div>
 		</div>
 	);

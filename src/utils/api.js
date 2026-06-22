@@ -41,12 +41,7 @@ const deleteRequest = ({ idTask }) =>
 		method: 'DELETE',
 	});
 
-export const searchTasks = (phrase) => {
-	const normalizedPhrase = phrase.trim();
-	return request(`${TODOS_URL_JSON_SERVER}?title:contains=${encodeURIComponent(normalizedPhrase)}`);
-};
-
-/*================ REDUX ФУНКЦИИ ================*/
+/*================ REDUX THUNK ФУНКЦИИ ================*/
 
 export const createTodo = (title) => (dispatch) =>
 	newTaskRequest(title)

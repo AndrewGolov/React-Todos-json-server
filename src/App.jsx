@@ -18,7 +18,7 @@ export const App = () => {
 	const isSorted = useSelector(isSortedSelector);
 
 	useEffect(() => {
-		dispatch(getData(isSorted));
+		dispatch(getData({ isSorted }));
 	}, [isSorted, dispatch]);
 
 	if (isLoadingJsonServer) {
