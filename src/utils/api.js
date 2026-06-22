@@ -43,24 +43,36 @@ const deleteRequest = ({ idTask }) =>
 
 /*================ REDUX THUNK ФУНКЦИИ ================*/
 
-export const createTodo = (title) => (dispatch) =>
-	newTaskRequest(title)
-		.then((newTask) => dispatch({ type: actions.ADD_NEW_TASK, payload: newTask }))
-		.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
+export const createTodo = (title) => (dispatch) => {
+	dispatch({ type: actions.GET_DATA_PENDING });
+	return newTaskRequest(title)
+		.then((newTask) => dispatch({ type: actions.ADD_NEW_TASK_FULLFIELD, payload: newTask }))
+		.catch((error) => dispatch({ type: actions.GET_DATA_REJECTED, payload: error.message }));
+};
 
-export const getData = (isSorted) => (dispatch) =>
-	readTodos(isSorted)
-		.then((dataRequest) => dispatch({ type: actions.GET_DATA_TODOS, payload: dataRequest }))
-		.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
+export const getData =
+	({ isSorted }) =>
+	(dispatch) => {
+		dispatch({ type: actions.GET_DATA_PENDING });
+		return readTodos({ isSorted })
+			.then((dataRequest) => dispatch({ type: actions.GET_DATA_FULFIELD, payload: dataRequest }))
+			.catch((error) => dispatch({ type: actions.GET_DATA_REJECTED, payload: error.message }));
+	};
+
 export const updateTodo =
 	({ id, payload }) =>
-	(dispatch) =>
-		updateTask({ id, payload })
-			.then((updatedData) => dispatch({ type: actions.UPDATE_TASK, payload: updatedData }))
-			.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
+	(dispatch) => {
+		dispatch({ type: actions.GET_DATA_PENDING });
+		return updateTask({ id, payload })
+			.then((updatedData) => dispatch({ type: actions.UPDATE_TASK_FULFIELD, payload: updatedData }))
+			.catch((error) => dispatch({ type: actions.GET_DATA_REJECTED, payload: error.message }));
+	};
+
 export const deleteTodo =
 	({ id }) =>
-	(dispatch) =>
-		deleteRequest({ idTask: id })
-			.then((deleteData) => dispatch({ type: actions.DELETE_TASK, payload: deleteData.id }))
-			.catch((error) => dispatch({ type: actions.ERROR_REQUEST, payload: error }));
+	(dispatch) => {
+		dispatch({ type: actions.GET_DATA_PENDING });
+		return deleteRequest({ idTask: id })
+			.then((deleteData) => dispatch({ type: actions.DELETE_TASK_FULFIELD, payload: deleteData.id }))
+			.catch((error) => dispatch({ type: actions.GET_DATA_REJECTED, payload: error.message }));
+	};

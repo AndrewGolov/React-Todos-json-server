@@ -1,30 +1,4 @@
 {
-  "todos": [
-    {
-      "title": "Задача 1",
-      "completed": false,
-      "id": "zjGSQgTk0uc"
-    },
-    {
-      "title": "Новая задача с пробелами и",
-      "completed": false,
-      "id": "ljPVyQUcfPU"
-    },
-    {
-      "title": "а это первая задача",
-      "completed": false,
-      "id": "Uik4DMitt9g"
-    },
-    {
-      "title": "большая задача",
-      "completed": false,
-      "id": "jM4kpE_iazg"
-    },
-    {
-      "title": "Кревтивная задача",
-      "completed": false,
-      "id": "cHMrwItePuc"
-    }
-  ],
+  "todos": [],
   "$schema": "./node_modules/json-server/schema.json"
 }
